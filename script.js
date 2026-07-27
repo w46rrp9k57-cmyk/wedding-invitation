@@ -1,90 +1,66 @@
-// =========================
-// script.js
-// =========================
-
+// ======================
 // Loader
+// ======================
+
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-    }, 2500);
+
+setTimeout(() => {
+
+document.getElementById("loader").style.display="none";
+
+document.getElementById("curtain-left").style.transform="translateX(-100%)";
+
+document.getElementById("curtain-right").style.transform="translateX(100%)";
+
+},2500);
+
 });
 
-// Curtains
-setTimeout(() => {
-    document.getElementById("curtain-left").style.display = "none";
-    document.getElementById("curtain-right").style.display = "none";
-}, 2600);
-
+// ======================
 // Music
-const music = document.getElementById("music");
-const musicBtn = document.getElementById("musicBtn");
+// ======================
 
-let playing = false;
+const music=document.getElementById("music");
 
-musicBtn.onclick = () => {
+const musicBtn=document.getElementById("musicBtn");
 
-    if (playing) {
+musicBtn.onclick=()=>{
 
-        music.pause();
-        musicBtn.innerHTML = "🎵";
+if(music.paused){
 
-    } else {
+music.play();
 
-        music.play();
-        musicBtn.innerHTML = "⏸";
+musicBtn.innerHTML="⏸";
 
-    }
+}else{
 
-    playing = !playing;
+music.pause();
 
-};
-
-// Countdown
-
-const wedding = new Date("August 7, 2026 19:30:00").getTime();
-
-function updateCountdown() {
-
-    const now = new Date().getTime();
-
-    const distance = wedding - now;
-
-    if (distance < 0) return;
-
-    document.getElementById("days").innerHTML =
-        Math.floor(distance / (1000 * 60 * 60 * 24));
-
-    document.getElementById("hours").innerHTML =
-        Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    document.getElementById("minutes").innerHTML =
-        Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-    document.getElementById("seconds").innerHTML =
-        Math.floor((distance % (1000 * 60)) / 1000);
+musicBtn.innerHTML="🎵";
 
 }
 
-updateCountdown();
+};
 
-setInterval(updateCountdown,1000);
-
+// ======================
 // Slider
+// ======================
 
 const slides=document.querySelectorAll(".slide");
+
 const dots=document.querySelectorAll(".dot");
 
 let current=0;
 
-function showSlide(i){
+function showSlide(index){
 
 slides.forEach(s=>s.classList.remove("active"));
 
 dots.forEach(d=>d.classList.remove("active"));
 
-slides[i].classList.add("active");
+slides[index].classList.add("active");
 
-dots[i].classList.add("active");
+dots[index].classList.add("active");
 
 }
 
@@ -102,102 +78,190 @@ showSlide(current);
 
 },4000);
 
+// ======================
+// Countdown
+// ======================
+
+const wedding=new Date("August 7, 2026 19:30:00").getTime();
+
+function updateCountdown(){
+
+const now=new Date().getTime();
+
+const distance=wedding-now;
+
+if(distance<0)return;
+
+document.getElementById("days").innerHTML=Math.floor(distance/(1000*60*60*24));
+
+document.getElementById("hours").innerHTML=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+
+document.getElementById("minutes").innerHTML=Math.floor((distance%(1000*60*60))/(1000*60));
+
+document.getElementById("seconds").innerHTML=Math.floor((distance%(1000*60))/1000);
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+// ======================
 // Hearts
+// ======================
 
 function createHeart(){
 
 const heart=document.createElement("div");
 
+heart.innerHTML="❤";
+
 heart.className="heart";
 
-heart.innerHTML="❤";
+heart.style.position="fixed";
 
 heart.style.left=Math.random()*100+"vw";
 
+heart.style.top="100vh";
+
 heart.style.fontSize=(15+Math.random()*25)+"px";
 
-heart.style.animationDuration=(5+Math.random()*5)+"s";
+heart.style.zIndex="999";
 
-document.getElementById("hearts").appendChild(heart);
+heart.style.animation="floatHeart 8s linear";
 
-setTimeout(()=>heart.remove(),10000);
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),8000);
 
 }
 
-setInterval(createHeart,300);
+setInterval(createHeart,350);
 
-// Flowers
+// ======================
+// Roses
+// ======================
 
-function createFlower(){
+function createRose(){
 
 const flower=document.createElement("div");
 
-flower.className="flower";
-
 flower.innerHTML="🌹";
+
+flower.style.position="fixed";
 
 flower.style.left=Math.random()*100+"vw";
 
+flower.style.top="-30px";
+
 flower.style.fontSize=(20+Math.random()*20)+"px";
 
-flower.style.animationDuration=(7+Math.random()*5)+"s";
+flower.style.zIndex="999";
 
-document.getElementById("flowers").appendChild(flower);
+flower.style.animation="fallRose 10s linear";
 
-setTimeout(()=>flower.remove(),12000);
+document.body.appendChild(flower);
+
+setTimeout(()=>flower.remove(),10000);
 
 }
 
-setInterval(createFlower,700);
+setInterval(createRose,900);
 
-// Sparkles
+// ======================
+// Fireworks
+// ======================
+
+function fireworks(){
+
+for(let i=0;i<80;i++){
+
+const spark=document.createElement("div");
+
+spark.style.position="fixed";
+
+spark.style.width="6px";
+
+spark.style.height="6px";
+
+spark.style.borderRadius="50%";
+
+spark.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
+spark.style.left="50vw";
+
+spark.style.top="35vh";
+
+spark.style.pointerEvents="none";
+
+spark.style.zIndex="9999";
+
+const x=(Math.random()*500)-250;
+
+const y=(Math.random()*500)-250;
+
+spark.animate([
+
+{
+
+transform:"translate(0,0)",
+
+opacity:1
+
+},
+
+{
+
+transform:`translate(${x}px,${y}px)`,
+
+opacity:0
+
+}
+
+],{
+
+duration:1800
+
+});
+
+document.body.appendChild(spark);
+
+setTimeout(()=>spark.remove(),1800);
+
+}
+
+}
+
+setTimeout(fireworks,3000);
+
+setInterval(fireworks,15000);
+
+// ======================
+// Click Sparkles
+// ======================
 
 document.addEventListener("click",e=>{
 
 for(let i=0;i<20;i++){
 
-let s=document.createElement("div");
+const s=document.createElement("span");
 
-s.className="spark";
+s.innerHTML="✨";
 
-s.style.left=e.pageX+"px";
+s.style.position="fixed";
 
-s.style.top=e.pageY+"px";
+s.style.left=e.clientX+"px";
 
-document.getElementById("sparkles").appendChild(s);
+s.style.top=e.clientY+"px";
 
-setTimeout(()=>s.remove(),1200);
+s.style.pointerEvents="none";
+
+s.style.animation="fade 1s";
+
+document.body.appendChild(s);
+
+setTimeout(()=>s.remove(),1000);
 
 }
 
 });
-
-// Fireworks
-
-function fireworks(){
-
-for(let i=0;i<120;i++){
-
-let f=document.createElement("div");
-
-f.className="fire";
-
-f.style.left="50vw";
-
-f.style.top="35vh";
-
-f.style.setProperty("--x",(Math.random()*500-250)+"px");
-
-f.style.setProperty("--y",(Math.random()*500-250)+"px");
-
-document.getElementById("fireworks").appendChild(f);
-
-setTimeout(()=>f.remove(),1800);
-
-}
-
-}
-
-setTimeout(fireworks,2800);
-
-setInterval(fireworks,15000);
